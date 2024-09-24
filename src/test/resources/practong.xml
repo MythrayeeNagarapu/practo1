@@ -1,0 +1,8 @@
+
+<suite name="Practo Test Suite">
+    <test name="Validate Details of doctors.">
+        <classes>
+            <class name="testcases.PractoTests" />
+        </classes>
+    </test>
+</suite>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Practo Automation Suite]">
+  <test thread-count="5" name="Practo Tests(failed)">
+    <classes>
+      <class name="testcases.PractoTests">
+        <methods>
+          <include name="verifyFilteredValues"/>
+          <include name="tearDown"/>
+          <include name="verifyDoctorCategoryList"/>
+          <include name="setUp"/>
+          <include name="verifyDoctorDetails"/>
+        </methods>
+      </class> <!-- testcases.PractoTests -->
+    </classes>
+  </test> <!-- Practo Tests(failed) -->
+</suite> <!-- Failed suite [Practo Automation Suite] -->

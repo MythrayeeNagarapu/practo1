@@ -1,0 +1,8 @@
+
+<suite name="Practo Automation Suite">
+    <test name="Practo Tests">
+        <classes>
+            <class name="testcases.PractoTests"/>
+        </classes>
+    </test>
+</suite>
