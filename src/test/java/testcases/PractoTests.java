@@ -1,107 +1,100 @@
-//
-//package testcases;
-//
-//import pages.HomePage;
-//import pages.DoctorsPage;
-//import base.baseClass;
-//import org.testng.annotations.AfterClass;
-//import org.testng.annotations.BeforeClass;
-//import org.testng.annotations.Test;
-//
-//public class PractoTests extends baseClass {
-//    HomePage homePage;
-//    DoctorsPage doctorsPage;
-//
-//    @BeforeClass
-//    public void setUp() {
-//        homePage = new HomePage();
-//        doctorsPage = new DoctorsPage();
-//        openURL();
-//    }
-//
-//    @Test
-//    public void verifyDoctorDetails() throws InterruptedException {
-//        homePage.selectLocationAndSpecialist();
-//        homePage.selectSpecialist();
-//        doctorsPage.validateCity();
-//        doctorsPage.validateDoctorsSpeciality();
-//    }
-//
-//    @AfterClass
-//    public void tearDown() {
-//        close_browser();
-//    }
-//}
+
 package testcases;
 
 import pages.HomePage;
 import pages.DoctorsPage;
 import pages.BookingPage;
 import base.baseClass;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+
+import org.junit.AfterClass;
+
 import org.testng.annotations.Test;
 
-public class PractoTests extends baseClass {
-    HomePage homePage;
-    DoctorsPage doctorsPage;
-    BookingPage bookingPage;
+import com.aventstack.extentreports.Status;
 
-    @BeforeClass
-    public void setUp() {
-        homePage = new HomePage();
-        doctorsPage = new DoctorsPage();
-        bookingPage = new BookingPage();
-        openURL();
-    }
+public class PractoTests extends baseClass {
+    HomePage homePage  = new HomePage();
+    DoctorsPage doctorsPage =new DoctorsPage();
+    BookingPage bookingPage=new BookingPage();
 
     @Test(priority = 1)
-    public void verifyDoctorCategoryList() throws InterruptedException {
-        homePage.selectLocation();
-        homePage.selectSpecialist();
+    public void verifyDoctorCategoryList() throws Exception {
+    	homePage.Browser_setup();
+    	homePage.openURL();
+        homePage.selectLocationNewHyderabad();;
+        homePage. selectSpecialtyPediatricDentist();
         doctorsPage.validateCity();
         doctorsPage.validateDoctorsSpeciality();
+      //  homePage.report();
+        
         homePage.report();
+        homePage.close_browser();
     }
 
     @Test(priority = 2)
-    public void verifyDoctorDetails() throws InterruptedException {
-//        homePage.selectLocation();
-//        homePage.selectSpecialist();
-        String specificDoctorName = "Dr. Vartika Singh";
-        homePage.selectDoctor(specificDoctorName);
-        String expectedDate = "2024-09-26"; 
-        String expectedTime = "10:00 AM"; 
+    public void verifyDoctorDetails() throws Exception {
+    	homePage.Browser_setup();
+    	homePage.openURL();
+        homePage.selectLocationNewHyderabad();
+        homePage. selectSpecialtyPediatricDentist();
+        String result[] = doctorsPage.buttons();
         
-        bookingPage.selectAvailableDate();
-        bookingPage.selectTimeSlot();
-
-        String bookedDoctorName = bookingPage.getDoctorName();
-        String bookedDate = bookingPage.getSelectedDate();
-        String bookedTimeSlot = bookingPage.getSelectedTimeSlot();
-
-        assert bookedDoctorName.equals(specificDoctorName) : "Doctor name mismatch!";
-        assert bookedDate.equals(expectedDate) : "Date mismatch!";
-        assert bookedTimeSlot.equals(expectedTime) : "Time slot mismatch!";
+        boolean[] doctorValidation = bookingPage.slot_validation(result[0],result[1],result[2]);
+        
+        if(doctorValidation[0] && doctorValidation[1] && doctorValidation[2]) {
+        	 test = report.createTest("Date and Time Validation");
+             test.log(Status.PASS, "Date, Time  and Doctor name is Matched");
+        }
+        else {
+        	if(doctorValidation[0]) {
+        		test = report.createTest("Date and Time Validation");
+                test.log(Status.FAIL, "Only Date is Matched");
+        	}
+        	else if(doctorValidation[1]) {
+        		test = report.createTest("Date and Time Validation");
+                test.log(Status.FAIL, "Only Time is Matched");
+        	}
+        	else if(doctorValidation[2]){
+        		test = report.createTest("Date and Time Validation");
+                test.log(Status.FAIL, "Only Doctor name is Matched");
+        	}
+        	else {
+        		test = report.createTest("Date and Time Validation");
+                test.log(Status.FAIL, "Date, Time and Doctor name is not Matched");
+        	}
+        }
+        
+        homePage.report();
+        homePage.close_browser();
+        
     }
     @Test(priority = 3)
-   public void verifyFilteredValues() throws InterruptedException {
+   public void verifyFilteredValues() throws Exception {
+    	
+    	homePage.Browser_setup();
+    	homePage.openURL();
 
-        homePage.selectLocation();
-        homePage.selectSpecialist();
+        homePage.selectLocationNewHyderabad();
+        homePage.selectSpecialtyPediatricDentist();
         
-      int minFee = 0;
-       int maxFee = 500;
-       homePage.selectConsultationFeeFilter();
-        doctorsPage.validateConsultationFees(minFee, maxFee);
+        
+        
+        int minFee = 0;
+        int maxFee = 500;
+        
+       doctorsPage.validateConsultationFees(minFee,maxFee);
+              
+       homePage.close_browser();
        
    
     }
+    
+    @AfterClass
+    public void save_report() {
+        homePage.report();
 
+    }
     
 
-    @AfterClass
-    public void tearDown() {
-        close_browser();
-    }
+
 }

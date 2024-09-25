@@ -7,9 +7,6 @@
         <methods>
           <include name="verifyFilteredValues"/>
           <include name="Browser_setup"/>
-          <include name="setUp"/>
-          <include name="verifyDoctorDetails"/>
-          <include name="tearDown"/>
         </methods>
       </class> <!-- testcases.PractoTests -->
     </classes>
